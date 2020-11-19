@@ -1,0 +1,4 @@
+[submodule "scat"]
+	path = scat
+	url = https://github.com/fgsect/scat
+	branch = master
