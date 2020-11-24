@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # setup_androidue: Setup script to prepare rooted Android devices for testing
 #
-# Copyright (C) 2016-2020 by sysmocom - s.f.m.c. GmbH
+# Copyright (C) 2020 by Software Radio Systems Limited
 #
 # Author: Bedran Karakoc <bedran.karakoc@softwareradiosystems.com>
 # Author: Nils Fürste <nils.fuerste@softwareradiosystems.com>
