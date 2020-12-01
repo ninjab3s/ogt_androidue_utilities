@@ -211,14 +211,14 @@ class SetupUtils:
 
         if 'arm64-v8a' in android_abi:
             os.popen('adb push ' + directory + '/iperf3/arm64-v8a/iperf3.9 ' + '/data/local/tmp')
-            self.run_adb_shell_cmd('cp /data/local/tmp/iperf3.9 /system/bin', True, serial)
-            self.run_adb_shell_cmd('chmod +x /system/bin/iperf3.9', True, serial)
-            print(self.run_adb_shell_cmd('iperf3.9 -v', True, serial))
+            self.run_adb_shell_cmd('mv /data/local/tmp/iperf3.9 /system/bin/iperf3', True, serial)
+            self.run_adb_shell_cmd('chmod +x /system/bin/iperf3', True, serial)
+            print(self.run_adb_shell_cmd('iperf3 -v', True, serial))
         elif 'armeabi-v7a' in android_abi:
             os.popen('adb push ' + directory + '/iperf3/armeabi-v7a/iperf3.9 ' + '/data/local/tmp')
-            self.run_adb_shell_cmd('cp /data/local/tmp/iperf3.9 /system/bin', True, serial)
-            self.run_adb_shell_cmd('chmod +x /system/bin/iperf3.9', True, serial)
-            print(self.run_adb_shell_cmd('iperf3.9 -v', True, serial))
+            self.run_adb_shell_cmd('mv /data/local/tmp/iperf3.9 /system/bin/iperf3', True, serial)
+            self.run_adb_shell_cmd('chmod +x /system/bin/iperf3', True, serial)
+            print(self.run_adb_shell_cmd('iperf3 -v', True, serial))
 
     def remount_partitions_writable(self, serial):
         self.run_adb_shell_cmd('mount -o rw,remount /system', True, serial)
@@ -352,14 +352,14 @@ if __name__ == "__main__":
                 print("DropbearMulti SSH server running")
 
         ## check iperf3 binary
-        print("Checking iPerf3.9 ...")
+        print("Checking iPerf3...")
         if not setupUtils.check_iperf3(ue_serial):
             if 'yes' in input('iPerf3.9 was not found. Do you want to install it on the UE? (yes/no): '):
                 setupUtils.push_iperf3_bin(ue_serial)
         else:
             # make sure iPerf3 directories are available
             setupUtils.make_iperf3_dirs(ue_serial)
-            print("iPerf3.9 is ready to use!")
+            print("iPerf3 is ready to use!")
 
         ## diag setup
         print("Checking if device has a Qualcomm baseband to support diag features")
