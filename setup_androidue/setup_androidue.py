@@ -107,7 +107,7 @@ class SetupUtils:
         self.run_adb_shell_cmd('mount -o rw,remount /', True, serial)
         time.sleep(2)
 
-        os.popen('adb push ' + directory + '/dropbear/dropbearmulti ' + '/data/local/tmp')
+        os.popen('adb -s ' + serial + ' push ' + directory + '/dropbear/dropbearmulti ' + '/data/local/tmp')
         self.run_adb_shell_cmd('mv /data/local/tmp/dropbearmulti /system/bin', True, serial)
         self.run_adb_shell_cmd('chmod +x /system/bin/dropbearmulti', True, serial)
 
@@ -167,7 +167,7 @@ class SetupUtils:
         if pub_key is not None:
             # Keep /data/local/tmp as location convention for keys. This directory is
             # accessible by everyone and avoids permission problems
-            os.popen('adb push ' + pub_key + ' ' + '/data/local/tmp/')
+            os.popen('adb -s ' + serial + ' push ' + pub_key + ' ' + '/data/local/tmp/')
 
         # Start the dropbear SSH server. Do not modify the parameters!
         start_srv_cmd = 'dropbearmulti dropbear -R -p ' + str(port) \
@@ -210,12 +210,12 @@ class SetupUtils:
         self.make_iperf3_dirs(serial)
 
         if 'arm64-v8a' in android_abi:
-            os.popen('adb push ' + directory + '/iperf3/arm64-v8a/iperf3.9 ' + '/data/local/tmp')
+            os.popen('adb -s ' + serial + ' push ' + directory + '/iperf3/arm64-v8a/iperf3.9 ' + '/data/local/tmp')
             self.run_adb_shell_cmd('mv /data/local/tmp/iperf3.9 /system/bin/iperf3', True, serial)
             self.run_adb_shell_cmd('chmod +x /system/bin/iperf3', True, serial)
             print(self.run_adb_shell_cmd('iperf3 -v', True, serial))
         elif 'armeabi-v7a' in android_abi:
-            os.popen('adb push ' + directory + '/iperf3/armeabi-v7a/iperf3.9 ' + '/data/local/tmp')
+            os.popen('adb -s ' + serial + ' push ' + directory + '/iperf3/armeabi-v7a/iperf3.9 ' + '/data/local/tmp')
             self.run_adb_shell_cmd('mv /data/local/tmp/iperf3.9 /system/bin/iperf3', True, serial)
             self.run_adb_shell_cmd('chmod +x /system/bin/iperf3', True, serial)
             print(self.run_adb_shell_cmd('iperf3 -v', True, serial))
@@ -296,7 +296,7 @@ class SetupUtils:
         self.run_adb_shell_cmd('mkdir /data/local/tmp/diag_logs', True, serial)
         self.run_adb_shell_cmd('chmod 777 /data/local/tmp/diag_logs', True, serial)
         # Push config file containing logging masks for the diag interface
-        os.popen('adb push ' + directory + '/ogt_diag.cfg ' + '/data/local/tmp/diag_logs/')
+        os.popen('adb -s ' + serial + ' push ' + directory + '/ogt_diag.cfg ' + '/data/local/tmp/diag_logs/')
 
 
 
