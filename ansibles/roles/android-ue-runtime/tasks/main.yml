@@ -1,0 +1,60 @@
+---
+
+- name: update apt
+  apt:
+    cache_valid_time: 3600
+    update_cache: yes
+    force_apt_get: yes
+
+- name: install android UE dependencies
+  apt:
+    pkg:
+      - adb  # correct version ub18.04?
+      - python3
+      - python3-pip
+  tags:
+    - android-ue-runtime
+
+- name: install android UE python dependencies
+  pip3:
+    pkg:
+      - netifaces
+      - brctl
+      - pyserial
+      - pyusb
+  tags:
+    - android-ue-runtime
+
+- name: setup pycreate repository
+  git:
+    repo: 'https://github.com/P1sec/pycrate'
+    dest: /root/pycrate
+    version: "{{ pycrate_branch }}"
+    clone: yes
+    update: no
+  tags:
+    - android-ue-runtime
+
+- name: install pycrate
+  shell: |
+      cd pycrate && \
+      python3 setup.py install
+  tags:
+    - android-ue-runtime
+
+- name: setup scat repository
+  git:
+    repo: 'https://github.com/bedrankara/scat'
+    dest: /root/scat
+    version: "{{ scat_branch }}"
+    clone: yes
+    update: no
+  tags:
+    - android-ue-runtime
+
+- name: install scat
+  shell: |
+      cd scat && \
+      scat ln -s /root/scat/scat.py /usr/local/bin/scat
+  tags:
+    - android-ue-runtime
